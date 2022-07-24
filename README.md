@@ -1,5 +1,5 @@
 ## Overview
-Repository creates for fast running development process with configuration, which are the same from project to project.
+The bot tells about the historical events that took place on this day
 
 ## Building
 ...
