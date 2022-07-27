@@ -7,7 +7,12 @@ public enum CommandName {
     HELP("/help"),
     NO("nocommand"),
     ADMIN("/simsaladmin"),
-    EVENT("/event");
+    TODAY("/today"),
+    DATE("/date"),
+    SUBSCRIBE("/subscribe"),
+    UNSUBSCRIBE("/unsubscribe"),
+    NAME("/name"),
+    UPDATE("/update");
 
     private final String commandName;
 

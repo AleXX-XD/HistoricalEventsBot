@@ -10,9 +10,9 @@ public class StartCommand implements Command {
     private final SendBotMessageService sendBotMessageService;
     private final UserService userService;
 
-    public final static String START_MESSAGE_NEW_USER = "Привет! Я бот, который интересуется историей.\n" +
-            "Если хочешь получать информацию об исторических событиях, то оставайся со мной, мы подружимся \uD83D\uDE09" +
-            "\nЧтобы ознакомиться с моими возможностями, жми /help";
+    public final static String START_MESSAGE_NEW_USER = "Привет! Давай знакомиться. Меня зовут БОТер I Великий.\n" +
+            "Я очень люблю историю и буду рад делиться своими знаниями с тобой \uD83D\uDE09\n" +
+            "Как я могу обращаться к тебе?";
     public final static String START_MESSAGE_OLD_USER = "Привет! Тебе было без меня скучно? " +
             "Я рад, что ты вернулся \uD83D\uDE00" +
             "\nНапомнить, что я умею? Жми /help";
@@ -27,9 +27,10 @@ public class StartCommand implements Command {
     @Override
     public void execute(Update update) {
         String chatId = update.getMessage().getChatId().toString();
-        User user = userService.findByChatId(chatId);
+        User user = userService.getUser(chatId);
         if(user == null) {
-            user = new User(chatId,true);
+            user = new User(chatId);
+            userService.saveUser(user);
             sendBotMessageService.sendMessage(chatId, START_MESSAGE_NEW_USER);
         } else {
             if(user.isActive()) {

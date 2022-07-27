@@ -1,13 +1,12 @@
 package HistoricalEventsBotApi.model;
 
+import HistoricalEventsBotApi.command.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Time;
+import java.time.LocalTime;
 
 
 @Getter
@@ -22,16 +21,24 @@ public class User {
     private boolean active;
     private boolean subscription;
     @Column(name="notification_time")
-    private Time notificationTime;
+    private LocalTime notificationTime;
     private String name;
+    @Column(name="is_admin")
+    private boolean isAdmin;
+    private Stage stage;
+    @Column(name="stage_time")
+    private LocalTime stageTime;
+    @Column(name="current_events")
+    private String currentEvents;
 
-    public User(String chatId, boolean active) {
+    public User(String chatId) {
         this.chatId = chatId;
-        this.active = active;
+        active = true;
+        stage = Stage.STAGE_NAME;
+        stageTime = LocalTime.now();
         subscription = false;
+        isAdmin = false;
     }
 
-    public User() {
-
-    }
+    public User() {}
 }

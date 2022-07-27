@@ -8,14 +8,20 @@ public class HelpCommand implements Command
 {
     private final SendBotMessageService sendBotMessageService;
 
-    public static final String HELP_MESSAGE = String.format("✨<b>Дотупные команды</b>✨\n\n"
-
+    public static final String HELP_MESSAGE = String.format("✨ <b>Дотупные команды</b> ✨\n\n"
                     + "<b>Начать\\закончить работу с ботом</b>\n"
-                    + "%s - начать работу со мной\n"
-                    + "%s - приостановить работу со мной\n\n"
-                    + "%s - получить список исторических событий в этот день\n"
-                    + "%s - получить помощь в работе со мной\n",
-            START.getCommandName(), STOP.getCommandName(), EVENT.getCommandName(), HELP.getCommandName());
+                    + "▶ %s - начать работу со мной\n"
+                    + "⏹ %s - приостановить работу со мной\n\n"
+                    + "<b>Получение исторических событий</b>\n"
+                    + "\uD83D\uDCC5 %s - получить список событий на сегодняшний день\n"
+                    + "\uD83D\uDCC6 %s - получить список событий в указанную дату\n"
+                    + "\uD83D\uDD14 %s - подписаться на ежедневную рассылку\n"
+                    + "\uD83D\uDD15 %s - отписаться от рассылки \n\n"
+                    + "\uD83D\uDC64 %s - добавить/изменить имя\n"
+                    + "\uD83D\uDE91 %s - помощь в работе со мной\n",
+            START.getCommandName(), STOP.getCommandName(), TODAY.getCommandName(),
+            DATE.getCommandName(), SUBSCRIBE.getCommandName(), UNSUBSCRIBE.getCommandName(),
+            NAME.getCommandName(), HELP.getCommandName());
 
     public HelpCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;

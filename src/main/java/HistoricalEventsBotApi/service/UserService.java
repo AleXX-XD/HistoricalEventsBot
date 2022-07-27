@@ -4,6 +4,7 @@ import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,11 +16,15 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User findByChatId(String chatId) {
+    public User getUser(String chatId) {
         return userRepository.findByChatId(chatId);
     }
 
     public void saveUser(User user) {
         userRepository.save(user);
+    }
+
+    public List<User> getSubUsers() {
+        return userRepository.findAllBySubscriptionIsTrue();
     }
 }

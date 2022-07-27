@@ -17,6 +17,7 @@ bot:
   name: bot_name
   token: bot_token
   password: admin_password
+  interval-in-cron: 0 15 09 * * *
 
 siteconfig:
   url: https://knowhistory.ru
