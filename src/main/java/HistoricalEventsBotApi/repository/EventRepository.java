@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EventRepository extends CrudRepository<Event, String> {
+public interface EventRepository extends CrudRepository<Event, Long> {
 
     List<Event> findAllByDate(String date);
 }

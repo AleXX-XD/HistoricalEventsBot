@@ -23,7 +23,7 @@ public class StopCommand implements Command
 
     @Override
     public void execute(Update update) {
-        User user = userService.findByChatId(update.getMessage().getChatId().toString());
+        User user = userService.getUser(update.getMessage().getChatId().toString());
         if(user == null) {
             sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(), STOP_MESSAGE_FAIL);
         } else {

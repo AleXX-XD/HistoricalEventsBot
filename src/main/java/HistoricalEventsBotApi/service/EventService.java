@@ -23,7 +23,7 @@ public class EventService {
         eventRepository.saveAll(eventList);
     }
 
-    public List<Event> getEvents(String Date) {
-        return eventRepository.findAllByDate(Date);
+    public List<Event> getEvents(String date) {
+        return eventRepository.findAllByDate(date);
     }
 }
