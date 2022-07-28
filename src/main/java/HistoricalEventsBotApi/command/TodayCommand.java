@@ -36,9 +36,6 @@ public class TodayCommand implements Command {
             sendBotMessageService.sendMessage(chatId, EVENT_MESSAGE_NO_ACTIVE);
         } else {
             String message = GettingEvents.getEventMessage(LocalDate.now());
-            user.setStage(Stage.STAGE_DATE);
-            user.setStageTime(LocalTime.now());
-            userService.saveUser(user);
             sendBotMessageService.sendMessage(chatId, message);
         }
     }

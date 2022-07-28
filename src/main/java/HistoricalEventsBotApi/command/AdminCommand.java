@@ -45,7 +45,6 @@ public class AdminCommand implements Command{
                     break;
                 }
                 case 2: {
-
                     if(textList[1].equals(config.getAdminPassword())) {
                         user.setAdmin(true);
                         userService.saveUser(user);
