@@ -1,14 +1,15 @@
 package HistoricalEventsBotApi.command;
 
-import HistoricalEventsBotApi.command.annotation.AdminAnnotation;
-import HistoricalEventsBotApi.command.stage.StageDefinition;
-import HistoricalEventsBotApi.config.Config;
+import HistoricalEventsBotApi.command.admin.AdminCommand;
+import HistoricalEventsBotApi.command.admin.StaticCommand;
+import HistoricalEventsBotApi.command.admin.UpdateEventsCommand;
+import HistoricalEventsBotApi.command.admin.AdminAnnotation;
 import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.service.EventService;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;
-import HistoricalEventsBotApi.util.IndexingSiteUtil;
 import com.google.common.collect.ImmutableMap;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static HistoricalEventsBotApi.command.CommandName.*;
@@ -20,21 +21,23 @@ public class CommandContainer {
     private final ImmutableMap<String, Command> commandMap;
     private final Command unknownCommand;
 
+    @Autowired
     public CommandContainer(SendBotMessageService sendBotMessageService, UserService userService,
-                            EventService eventService, IndexingSiteUtil indexingSiteUtil, Config config) {
+                            EventService eventService) {
 
         commandMap = ImmutableMap.<String, Command>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, userService))
                 .put(STOP.getCommandName(), new StopCommand(sendBotMessageService, userService))
                 .put(HELP.getCommandName(), new HelpCommand(sendBotMessageService))
                 .put(NO.getCommandName(), new NoCommand(sendBotMessageService))
-                .put(ADMIN.getCommandName(), new AdminCommand(sendBotMessageService, userService, config))
+                .put(ADMIN.getCommandName(), new AdminCommand(sendBotMessageService, userService))
                 .put(TODAY.getCommandName(), new TodayCommand(sendBotMessageService, userService))
                 .put(DATE.getCommandName(), new DateCommand(sendBotMessageService, userService))
                 .put(SUBSCRIBE.getCommandName(), new SubscribeCommand(sendBotMessageService, userService, eventService))
                 .put(UNSUBSCRIBE.getCommandName(), new UnsubscribeCommand(sendBotMessageService, userService, eventService))
                 .put(NAME.getCommandName(), new NameCommand(sendBotMessageService, userService))
-                .put(UPDATE.getCommandName(), new UpdateEventsCommand(sendBotMessageService, userService, indexingSiteUtil))
+                .put(UPDATE.getCommandName(), new UpdateEventsCommand(sendBotMessageService, userService))
+                .put(STATIC.getCommandName(), new StaticCommand(sendBotMessageService, userService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);

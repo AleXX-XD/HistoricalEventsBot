@@ -6,13 +6,14 @@ public enum CommandName {
     STOP("/stop"),
     HELP("/help"),
     NO("nocommand"),
-    ADMIN("/simsaladmin"),
+    ADMIN("/admin"),
     TODAY("/today"),
     DATE("/date"),
     SUBSCRIBE("/subscribe"),
     UNSUBSCRIBE("/unsubscribe"),
     NAME("/name"),
-    UPDATE("/update");
+    UPDATE("/update"),
+    STATIC("/static");
 
     private final String commandName;
 

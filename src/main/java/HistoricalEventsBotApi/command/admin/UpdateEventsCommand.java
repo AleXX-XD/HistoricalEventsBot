@@ -1,6 +1,6 @@
-package HistoricalEventsBotApi.command;
+package HistoricalEventsBotApi.command.admin;
 
-import HistoricalEventsBotApi.command.annotation.AdminAnnotation;
+import HistoricalEventsBotApi.command.Command;
 import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;
@@ -15,12 +15,10 @@ public class UpdateEventsCommand implements Command {
     private final Logger log = Logger.getLogger(UpdateEventsCommand.class);
     private final UserService userService;
     private final SendBotMessageService sendBotMessageService;
-    private final IndexingSiteUtil indexingSiteUtil;
 
-    public UpdateEventsCommand(SendBotMessageService sendBotMessageService, UserService userService, IndexingSiteUtil indexingSiteUtil) {
+    public UpdateEventsCommand(SendBotMessageService sendBotMessageService, UserService userService) {
         this.userService = userService;
         this.sendBotMessageService = sendBotMessageService;
-        this.indexingSiteUtil = indexingSiteUtil;
     }
 
     @Override
@@ -29,6 +27,6 @@ public class UpdateEventsCommand implements Command {
         User user = userService.getUser(chatId);
         log.info("Запущено обновление базы данных, администратором  '" + user.getName() + "' / chatId = " + user.getChatId() + " ");
         sendBotMessageService.sendMessage(chatId, "Запущено обновление базы данных");
-        indexingSiteUtil.startIndexing();
+        IndexingSiteUtil.startIndexing();
     }
 }

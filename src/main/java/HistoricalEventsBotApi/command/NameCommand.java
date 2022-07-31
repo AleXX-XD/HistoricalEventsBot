@@ -29,7 +29,6 @@ public class NameCommand implements Command {
             sendBotMessageService.sendMessage(chatId, NAME_MESSAGE_NO_ACTIVE);
         } else {
             user.setStage(Stage.STAGE_NAME);
-            user.setStageTime(LocalTime.now());
             userService.saveUser(user);
             sendBotMessageService.sendMessage(user.getChatId(), NAME_COMMAND);
         }
