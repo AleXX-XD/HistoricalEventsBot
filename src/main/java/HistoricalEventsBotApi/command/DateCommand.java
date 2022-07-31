@@ -29,7 +29,6 @@ public class DateCommand implements Command {
             sendBotMessageService.sendMessage(chatId, DATE_MESSAGE_NO_ACTIVE);
         } else {
             user.setStage(Stage.STAGE_DATE);
-            user.setStageTime(LocalTime.now());
             userService.saveUser(user);
             sendBotMessageService.sendMessage(user.getChatId(), DATE_COMMAND);
         }

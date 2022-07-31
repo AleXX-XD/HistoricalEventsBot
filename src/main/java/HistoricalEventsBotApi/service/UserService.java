@@ -27,4 +27,20 @@ public class UserService {
     public List<User> getSubUsers() {
         return userRepository.findAllBySubscriptionIsTrue();
     }
+
+    public List<User> getAdminUsers() {
+        return userRepository.findAllByAdmin();
+    }
+
+    public long countAll() {
+        return userRepository.count();
+    }
+
+    public long countActiveUsers() {
+        return userRepository.countAllByActiveTrue();
+    }
+
+    public long countSubUsers() {
+        return userRepository.countAllBySubscriptionTrue();
+    }
 }

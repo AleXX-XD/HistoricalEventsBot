@@ -18,10 +18,12 @@ public class StageDefinition {
 
     private final SendBotMessageService sendBotMessageService;
     private final UserService userService;
+    private final Config config;
 
-    public StageDefinition(SendBotMessageService sendBotMessageService, UserService userService) {
+    public StageDefinition(SendBotMessageService sendBotMessageService, UserService userService, Config config) {
         this.sendBotMessageService = sendBotMessageService;
         this.userService = userService;
+        this.config = config;
     }
 
     public void definition(User user, Update update) {
@@ -32,6 +34,14 @@ public class StageDefinition {
             }
             case STAGE_DATE: {
                 new StageDateCommand(sendBotMessageService, userService, user).execute(update);
+                break;
+            }
+            case STAGE_EVENTS: {
+                new StageEventsCommand(sendBotMessageService, userService, user).execute(update);
+                break;
+            }
+            case STAGE_ADMIN: {
+                new StageAdminCommand(sendBotMessageService, userService, user, config).execute(update);
                 break;
             }
         }

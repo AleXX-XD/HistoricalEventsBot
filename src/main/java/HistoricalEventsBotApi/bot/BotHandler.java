@@ -31,12 +31,14 @@ public class BotHandler {
     @Autowired
     public BotHandler(Bot bot, Config config, UserService userService, EventService eventService) {
         BotHandler.commandContainer = new CommandContainer(new SendBotMessageService(bot),
-                userService, eventService, config);
-        BotHandler.stageDefinition = new StageDefinition(new SendBotMessageService(bot), userService);
+                userService, eventService);
+        BotHandler.stageDefinition = new StageDefinition(new SendBotMessageService(bot), userService, config);
         BotHandler.userService = userService;
     }
 
     public static void distribution(Update update) {
+        System.out.println("update.toString() = " + update.toString());
+        System.out.println("update.getMessage().getText() = " + update.getMessage().getText());
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText().trim();
             User user = userService.getUser(update.getMessage().getChatId().toString());
@@ -44,9 +46,8 @@ public class BotHandler {
                 if(user.getName() == null) {
                     user.setName("Стесняшка");
                 }
-                if(LocalTime.now().isAfter(user.getStageTime().plusMinutes(2))) {
+                if(LocalTime.now().isAfter(user.getStageTime().plusMinutes(5))) {
                     user.setStage(Stage.NONE);
-                    user.setStageTime(LocalTime.now());
                     userService.saveUser(user);
                     distribution(update);
                 } else {
@@ -55,8 +56,7 @@ public class BotHandler {
                 }
             } else {
                 if (message.startsWith(COMMAND_PREFIX)) {
-                    String commandIdentifier = message.split("\\s+")[0].toLowerCase();
-                    commandContainer.retrieveCommand(commandIdentifier, user).execute(update);
+                    commandContainer.retrieveCommand(message, user).execute(update);
                 } else {
                     commandContainer.retrieveCommand(NO.getCommandName(), user).execute(update);
                 }

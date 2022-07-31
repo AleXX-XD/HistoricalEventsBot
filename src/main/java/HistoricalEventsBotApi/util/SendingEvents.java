@@ -1,11 +1,13 @@
 package HistoricalEventsBotApi.util;
 
+import HistoricalEventsBotApi.command.stage.Stage;
 import HistoricalEventsBotApi.model.Event;
 import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.service.EventService;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -30,12 +32,15 @@ public class SendingEvents {
     @Scheduled(cron = "${bot.interval-in-cron}")
     public void sendEvents() {
         List<User> userList = userService.getSubUsers();
-        String message = GettingEvents.getEventMessage(LocalDate.now());
+        JSONObject eventsObject = GettingEvents.getEventMessage(LocalDate.now());
+        String message = GettingEvents.getContent(eventsObject);
         for(User user : userList) {
+            user.setStage(Stage.STAGE_EVENTS);
+            userService.saveUser(user);
             sendBotMessageService.sendMessage(user.getChatId(), SENDING_MESSAGE);
             sendBotMessageService.sendMessage(user.getChatId(), message);
-            log.info("Рассылка событий на сегодняшнюю дату прошла успешно!");
         }
+        log.info("Рассылка событий на сегодняшнюю дату прошла успешно!");
     }
 
 }

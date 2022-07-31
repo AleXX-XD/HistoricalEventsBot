@@ -1,4 +1,4 @@
-package HistoricalEventsBotApi.command.annotation;
+package HistoricalEventsBotApi.command.admin;
 
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

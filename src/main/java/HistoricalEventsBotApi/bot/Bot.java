@@ -2,7 +2,7 @@ package HistoricalEventsBotApi.bot;
 
 import HistoricalEventsBotApi.config.Config;
 import HistoricalEventsBotApi.service.EventService;
-import HistoricalEventsBotApi.service.MessageReciever;
+import HistoricalEventsBotApi.service.MessageReceiverService;
 import HistoricalEventsBotApi.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,6 @@ public class Bot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String botToken;
 
-    public static final Queue<Update> receiveQueue = new ConcurrentLinkedQueue<>();
-
     @Autowired
     public Bot() {
     }
@@ -43,12 +41,11 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        MessageReciever messageReciever = new MessageReciever(update);
-        Thread receiver = new Thread(messageReciever);
+        MessageReceiverService messageReceiver = new MessageReceiverService(update);
+        Thread receiver = new Thread(messageReceiver);
         receiver.setDaemon(true);
         receiver.setName("ReceivedThread");
         receiver.setPriority(10);
         receiver.start();
     }
-
 }

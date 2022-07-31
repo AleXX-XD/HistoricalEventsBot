@@ -18,5 +18,4 @@ public class Event {
     @Column(columnDefinition = "TEXT")
     private String text;
     private String img;
-
 }

@@ -7,8 +7,10 @@ import HistoricalEventsBotApi.service.EventService;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;
 import HistoricalEventsBotApi.util.GettingEvents;
+import org.json.simple.JSONObject;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -35,8 +37,13 @@ public class TodayCommand implements Command {
         if(user == null || !user.isActive()){
             sendBotMessageService.sendMessage(chatId, EVENT_MESSAGE_NO_ACTIVE);
         } else {
-            String message = GettingEvents.getEventMessage(LocalDate.now());
-            sendBotMessageService.sendMessage(chatId, message);
+            JSONObject eventsObject = GettingEvents.getEventMessage(LocalDate.now());
+            user.setCurrentEvents(eventsObject.toJSONString());
+            user.setStage(Stage.STAGE_EVENTS);
+            userService.saveUser(user);
+            String content = GettingEvents.getContent(eventsObject);
+            sendBotMessageService.sendMessage(chatId, content);
+            System.out.println(eventsObject.toJSONString());
         }
     }
 }

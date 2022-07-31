@@ -76,10 +76,10 @@ public class ParseSiteUtil implements Runnable {
             }
 
             StringBuilder builder = new StringBuilder();
-            builder.append(" ");
             for(Element el : doc.select("div.field-body").select("p")) {
                 builder.append(el.text().trim()).append("\n");
             }
+            builder.append("\nИноформация взята с сайта ").append(url);
             if(builder.toString().trim().length() != 0) {
                 event.setText(builder.toString());
                 eventList.add(event);

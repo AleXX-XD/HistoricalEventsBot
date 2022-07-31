@@ -1,12 +1,13 @@
-package HistoricalEventsBotApi.command;
+package HistoricalEventsBotApi.command.admin;
 
+import HistoricalEventsBotApi.command.Command;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static HistoricalEventsBotApi.command.CommandName.*;
 import static HistoricalEventsBotApi.command.CommandName.HELP;
 
-public class AdminHelpCommand implements Command{
+public class AdminHelpCommand implements Command {
 
     private final SendBotMessageService sendBotMessageService;
 

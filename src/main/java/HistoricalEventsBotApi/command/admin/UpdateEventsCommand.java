@@ -1,6 +1,6 @@
-package HistoricalEventsBotApi.command;
+package HistoricalEventsBotApi.command.admin;
 
-import HistoricalEventsBotApi.command.annotation.AdminAnnotation;
+import HistoricalEventsBotApi.command.Command;
 import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;

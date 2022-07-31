@@ -3,6 +3,10 @@ package HistoricalEventsBotApi.model;
 import HistoricalEventsBotApi.command.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -28,7 +32,7 @@ public class User {
     private Stage stage;
     @Column(name="stage_time")
     private LocalTime stageTime;
-    @Column(name="current_events")
+    @Column(name="current_events", columnDefinition = "TEXT")
     private String currentEvents;
 
     public User(String chatId) {
@@ -41,4 +45,9 @@ public class User {
     }
 
     public User() {}
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+        stageTime = LocalTime.now();
+    }
 }

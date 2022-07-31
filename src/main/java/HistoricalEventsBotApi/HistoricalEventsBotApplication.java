@@ -1,7 +1,7 @@
 package HistoricalEventsBotApi;
 
 import HistoricalEventsBotApi.bot.Bot;
-import HistoricalEventsBotApi.service.MessageReciever;
+import HistoricalEventsBotApi.service.MessageReceiverService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
