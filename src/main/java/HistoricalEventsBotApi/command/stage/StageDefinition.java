@@ -1,13 +1,10 @@
 package HistoricalEventsBotApi.command.stage;
 
-import HistoricalEventsBotApi.command.*;
 import HistoricalEventsBotApi.config.Config;
 import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.service.EventService;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;
-import HistoricalEventsBotApi.util.IndexingSiteUtil;
-import com.google.common.collect.ImmutableMap;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -18,11 +15,13 @@ public class StageDefinition {
 
     private final SendBotMessageService sendBotMessageService;
     private final UserService userService;
+    private final EventService eventService;
     private final Config config;
 
-    public StageDefinition(SendBotMessageService sendBotMessageService, UserService userService, Config config) {
+    public StageDefinition(SendBotMessageService sendBotMessageService, UserService userService, EventService eventService, Config config) {
         this.sendBotMessageService = sendBotMessageService;
         this.userService = userService;
+        this.eventService = eventService;
         this.config = config;
     }
 
@@ -42,6 +41,26 @@ public class StageDefinition {
             }
             case STAGE_ADMIN: {
                 new StageAdminCommand(sendBotMessageService, userService, user, config).execute(update);
+                break;
+            }
+            case STAGE_CORRECT: {
+                if(user.isActive() && user.isAdmin()) {
+                    new StageCorrectCommand(sendBotMessageService, userService, eventService, user).execute(update);
+                } else {
+                    user.setStage(NONE);
+                    userService.saveUser(user);
+                    sendBotMessageService.sendMessage(user.getChatId(), "Команда доступна только администратору!");
+                }
+                break;
+            }
+            case STAGE_ID: {
+                if(user.isActive() && user.isAdmin()) {
+                    new StageIdCommand(sendBotMessageService, userService, eventService, user).execute(update);
+                } else {
+                    user.setStage(NONE);
+                    userService.saveUser(user);
+                    sendBotMessageService.sendMessage(user.getChatId(), "Команда доступна только администратору!");
+                }
                 break;
             }
         }

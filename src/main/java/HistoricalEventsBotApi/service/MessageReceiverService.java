@@ -1,8 +1,6 @@
 package HistoricalEventsBotApi.service;
 
-import HistoricalEventsBotApi.bot.Bot;
 import HistoricalEventsBotApi.bot.BotHandler;
-import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class MessageReceiverService implements Runnable {

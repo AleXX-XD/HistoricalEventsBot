@@ -8,17 +8,17 @@ import HistoricalEventsBotApi.service.UserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @AdminAnnotation
-public class StaticCommand implements Command {
+public class StatisticCommand implements Command {
 
     private final SendBotMessageService sendBotMessageService;
     private final UserService userService;
 
-    public final static String STATIC_MESSAGE = "Статистика:\n" +
+    public final static String STATISTIC_MESSAGE = "Статистика:\n" +
             "Всего зарегистрировано = %s\n" +
             "Всего активных = %s\n" +
             "Всего подписок = %s\n";
 
-    public StaticCommand(SendBotMessageService sendBotMessageService, UserService userService) {
+    public StatisticCommand(SendBotMessageService sendBotMessageService, UserService userService) {
         this.sendBotMessageService = sendBotMessageService;
         this.userService = userService;
     }
@@ -33,7 +33,7 @@ public class StaticCommand implements Command {
             long all = userService.countAll();
             long active = userService.countActiveUsers();
             long subscription = userService.countSubUsers();
-            sendBotMessageService.sendMessage(chatId, String.format(STATIC_MESSAGE, all, active, subscription));
+            sendBotMessageService.sendMessage(chatId, String.format(STATISTIC_MESSAGE, all, active, subscription));
         }
     }
 }

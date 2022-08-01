@@ -1,9 +1,6 @@
 package HistoricalEventsBotApi.command;
 
-import HistoricalEventsBotApi.command.admin.AdminCommand;
-import HistoricalEventsBotApi.command.admin.StaticCommand;
-import HistoricalEventsBotApi.command.admin.UpdateEventsCommand;
-import HistoricalEventsBotApi.command.admin.AdminAnnotation;
+import HistoricalEventsBotApi.command.admin.*;
 import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.service.EventService;
 import HistoricalEventsBotApi.service.SendBotMessageService;
@@ -33,11 +30,13 @@ public class CommandContainer {
                 .put(ADMIN.getCommandName(), new AdminCommand(sendBotMessageService, userService))
                 .put(TODAY.getCommandName(), new TodayCommand(sendBotMessageService, userService))
                 .put(DATE.getCommandName(), new DateCommand(sendBotMessageService, userService))
-                .put(SUBSCRIBE.getCommandName(), new SubscribeCommand(sendBotMessageService, userService, eventService))
-                .put(UNSUBSCRIBE.getCommandName(), new UnsubscribeCommand(sendBotMessageService, userService, eventService))
+                .put(SUBSCRIBE.getCommandName(), new SubscribeCommand(sendBotMessageService, userService))
+                .put(UNSUBSCRIBE.getCommandName(), new UnsubscribeCommand(sendBotMessageService, userService))
                 .put(NAME.getCommandName(), new NameCommand(sendBotMessageService, userService))
                 .put(UPDATE.getCommandName(), new UpdateEventsCommand(sendBotMessageService, userService))
-                .put(STATIC.getCommandName(), new StaticCommand(sendBotMessageService, userService))
+                .put(ID.getCommandName(), new IdEventCommand(sendBotMessageService, userService))
+                .put(STATISTIC.getCommandName(), new StatisticCommand(sendBotMessageService, userService))
+                .put(AHELP.getCommandName(), new AdminHelpCommand(sendBotMessageService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);

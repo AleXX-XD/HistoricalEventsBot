@@ -1,22 +1,13 @@
 package HistoricalEventsBotApi.command;
 
 import HistoricalEventsBotApi.command.stage.Stage;
-import HistoricalEventsBotApi.model.Event;
 import HistoricalEventsBotApi.model.User;
-import HistoricalEventsBotApi.service.EventService;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;
 import HistoricalEventsBotApi.util.GettingEvents;
 import org.json.simple.JSONObject;
 import org.telegram.telegrambots.meta.api.objects.Update;
-
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.List;
-import java.util.Locale;
 
 public class TodayCommand implements Command {
 
@@ -43,7 +34,6 @@ public class TodayCommand implements Command {
             userService.saveUser(user);
             String content = GettingEvents.getContent(eventsObject);
             sendBotMessageService.sendMessage(chatId, content);
-            System.out.println(eventsObject.toJSONString());
-        }
+       }
     }
 }

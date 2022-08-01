@@ -5,15 +5,9 @@ import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;
 import HistoricalEventsBotApi.util.GettingEvents;
-import HistoricalEventsBotApi.util.SendingEvents;
 import org.apache.log4j.Logger;
 import org.json.simple.parser.ParseException;
 import org.telegram.telegrambots.meta.api.objects.Update;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class StageEventsCommand implements Command {
 
@@ -26,9 +20,14 @@ public class StageEventsCommand implements Command {
             "выбери номер от 1 до %s, или жми /back для возврата.";
     public final static String STAGE_EVENTS_FAIL_FORMAT = "Эммм...и что это? \uD83E\uDD14\n" +
             "Введи номер события, чтобы отобразить подробную информацию, или жми /back для возврата. ";
-    private static final String STAGE_EVENTS_SLASH = "Я жду номер события, а не команду \uD83D\uDE01";
+    private static final String STAGE_EVENTS_SLASH = "Я жду номер, а не команду \uD83D\uDE01\n" +
+            "Введи номер события или жми /back для возврата. ";
     public final static String STAGE_EVENTS_OVERFLOW = "Нет такого номера! Введи номер из диапазона: %s, или жми /back для возврата.";
     public final static String STAGE_EVENTS_BACK = "Хорошо, <b>%s</b> \uD83D\uDC4C Вернул тебя к выбору команд.";
+    public final static String STAGE_EVENTS_CORRECT = "Укажи праметр (date,title,text,image) и значение для изменения через !-! или delete для удаления записи : \n" +
+            "Формат: параметр!-!значение\n" +
+            "Пример: date!-!4/25 , image!-!https://url , text!-!Текст\n" +
+            "Для завершения изменений, жми /back";
 
     public StageEventsCommand(SendBotMessageService sendBotMessageService, UserService userService, User user) {
         this.sendBotMessageService = sendBotMessageService;
@@ -52,7 +51,7 @@ public class StageEventsCommand implements Command {
                 try {
                     int number = Integer.parseInt(text);
                     int count = GettingEvents.countCurrentEvents(user.getCurrentEvents());
-                    if(number <= count) {
+                    if (number <= count) {
                         String message = GettingEvents.getEvent(user.getCurrentEvents(), number);
                         String image = GettingEvents.getImage(user.getCurrentEvents(), number);
                         sendBotMessageService.sendMessage(user.getChatId(), message);
@@ -65,22 +64,20 @@ public class StageEventsCommand implements Command {
                     log.warn("Ошибка обработки Json из БД : " + ex.getMessage());
                     ex.printStackTrace();
                 }
-
-
+            } else if (text.matches("\\d{1,2}\\scorrect") && user.isAdmin()) {
+                String[] textSplit = text.split("\\s");
+                try {
+                    String event = GettingEvents.getEventForCorrect(user.getCurrentEvents(), Integer.parseInt(textSplit[0]));
+                    user.setStage(Stage.STAGE_CORRECT);
+                    user.setCurrentEvents(event);
+                    userService.saveUser(user);
+                    sendBotMessageService.sendMessage(user.getChatId(), STAGE_EVENTS_CORRECT);
+                } catch (ParseException ex) {
+                    log.warn("Ошибка обработки Json из БД : " + ex.getMessage());
+                }
             } else {
                 sendBotMessageService.sendMessage(user.getChatId(), STAGE_EVENTS_FAIL_FORMAT);
             }
-        }
-
-
-    }
-
-    private LocalDate extractionDate(String text) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yyyy");
-            return LocalDate.parse(text, formatter);
-        } catch (DateTimeParseException ex) {
-            return null;
         }
     }
 }

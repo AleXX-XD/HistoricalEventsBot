@@ -5,14 +5,9 @@ import HistoricalEventsBotApi.config.Config;
 import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;
-import HistoricalEventsBotApi.util.GettingEvents;
 import org.jboss.logging.Logger;
-import org.json.simple.JSONObject;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class StageAdminCommand implements Command {

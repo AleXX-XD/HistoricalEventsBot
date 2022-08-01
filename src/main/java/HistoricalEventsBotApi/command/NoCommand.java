@@ -1,10 +1,6 @@
 package HistoricalEventsBotApi.command;
 
-import HistoricalEventsBotApi.command.stage.Stage;
-import HistoricalEventsBotApi.command.stage.StageDefinition;
-import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.service.SendBotMessageService;
-import HistoricalEventsBotApi.service.UserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class NoCommand implements Command
