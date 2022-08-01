@@ -6,7 +6,7 @@
 
     <groupId>com.github.alexx-xd</groupId>
     <artifactId>HistoricalEventsBot</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <url>https://github.com/AleXX-XD/HistoricalEventsBot</url>
 
@@ -26,8 +26,8 @@
     </developers>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <build>
@@ -72,14 +72,14 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.2</version>
+            <version>42.3.6</version>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.8.3</version>
+            <version>1.14.3</version>
         </dependency>
 
         <dependency>

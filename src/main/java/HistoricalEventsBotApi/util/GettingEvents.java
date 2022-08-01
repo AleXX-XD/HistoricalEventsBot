@@ -3,7 +3,6 @@ package HistoricalEventsBotApi.util;
 import HistoricalEventsBotApi.model.Event;
 import HistoricalEventsBotApi.service.EventService;
 
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -46,6 +45,7 @@ public class GettingEvents {
             eventObject.put("title", "<b>" + title + "</b>");
             eventObject.put("text", event.getText());
             eventObject.put("image", event.getImg());
+            eventObject.put("link", event.getLink());
             eventsArray.add(eventObject);
             i += 1;
         }
@@ -65,6 +65,12 @@ public class GettingEvents {
         return finalText;
     }
 
+    public static String getEventForCorrect(String json, int number) throws ParseException {
+        JSONArray array = GettingEvents.getArray(json);
+        JSONObject event = (JSONObject) array.get(number-1);
+        return event.toJSONString();
+    }
+
     public static String getContent (JSONObject object) {
         return object.get("content").toString();
     }
@@ -75,10 +81,18 @@ public class GettingEvents {
         return event.get("title") +  "\n\n" +  event.get("text") + "\n";
     }
 
+    public static String getEvent (JSONObject json) {
+        return json.get("title") +  "\n\n" +  json.get("text") + "\n";
+    }
+
     public static String getImage (String json, int number) throws ParseException {
         JSONArray array = GettingEvents.getArray(json);
         JSONObject event = (JSONObject) array.get(number-1);
         return (String) event.get("image");
+    }
+
+    public static String getImage (JSONObject json) {
+        return (String) json.get("image");
     }
 
     public static int countCurrentEvents(String json) throws ParseException {
@@ -90,7 +104,7 @@ public class GettingEvents {
         return  (JSONArray) object.get("events");
     }
 
-    private static JSONObject stringToJson(String text) throws ParseException {
+    public static JSONObject stringToJson(String text) throws ParseException {
         return (JSONObject) new JSONParser().parse(text);
     }
 }

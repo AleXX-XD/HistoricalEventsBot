@@ -8,8 +8,6 @@ import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.service.EventService;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;
-import HistoricalEventsBotApi.util.IndexingSiteUtil;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -21,7 +19,6 @@ import static HistoricalEventsBotApi.command.CommandName.NO;
 @Component
 public class BotHandler {
 
-    private static final Logger log = Logger.getLogger(BotHandler.class);
     private static final String COMMAND_PREFIX = "/";
     private static CommandContainer commandContainer;
     private static UserService userService;
@@ -32,18 +29,16 @@ public class BotHandler {
     public BotHandler(Bot bot, Config config, UserService userService, EventService eventService) {
         BotHandler.commandContainer = new CommandContainer(new SendBotMessageService(bot),
                 userService, eventService);
-        BotHandler.stageDefinition = new StageDefinition(new SendBotMessageService(bot), userService, config);
+        BotHandler.stageDefinition = new StageDefinition(new SendBotMessageService(bot), userService, eventService, config);
         BotHandler.userService = userService;
     }
 
     public static void distribution(Update update) {
-        System.out.println("update.toString() = " + update.toString());
-        System.out.println("update.getMessage().getText() = " + update.getMessage().getText());
-        if (update.hasMessage() && update.getMessage().hasText()) {
+       if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText().trim();
             User user = userService.getUser(update.getMessage().getChatId().toString());
             if (user != null && user.getStage() != Stage.NONE) {
-                if(user.getName() == null) {
+                if(user.getName() == null && user.getStage() != Stage.STAGE_NAME) {
                     user.setName("Стесняшка");
                 }
                 if(LocalTime.now().isAfter(user.getStageTime().plusMinutes(5))) {

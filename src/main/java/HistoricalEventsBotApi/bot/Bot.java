@@ -1,18 +1,12 @@
 package HistoricalEventsBotApi.bot;
 
-import HistoricalEventsBotApi.config.Config;
-import HistoricalEventsBotApi.service.EventService;
 import HistoricalEventsBotApi.service.MessageReceiverService;
-import HistoricalEventsBotApi.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
-
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Component
 public class Bot extends TelegramLongPollingBot {

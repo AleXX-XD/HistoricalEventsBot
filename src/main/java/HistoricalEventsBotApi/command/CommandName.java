@@ -13,7 +13,9 @@ public enum CommandName {
     UNSUBSCRIBE("/unsubscribe"),
     NAME("/name"),
     UPDATE("/update"),
-    STATIC("/static");
+    ID("/id"),
+    STATISTIC("/statistic"),
+    AHELP("/ahelp");
 
     private final String commandName;
 

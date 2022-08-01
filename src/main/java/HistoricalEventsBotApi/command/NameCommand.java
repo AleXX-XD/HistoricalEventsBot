@@ -6,8 +6,6 @@ import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.time.LocalTime;
-
 public class NameCommand implements Command {
 
     private final SendBotMessageService sendBotMessageService;

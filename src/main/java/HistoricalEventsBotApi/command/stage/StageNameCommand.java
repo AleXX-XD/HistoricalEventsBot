@@ -19,6 +19,8 @@ public class StageNameCommand implements Command {
             "Используй пожалуйста только буквы или жми /back для отмены";
     private static final String STAGE_NAME_BACK = "Хорошо, <b>%s</b> переходим к интересностям \uD83D\uDE43 " +
             "Выбери команду в меню или нажми /help, для отображения моих возможностей";
+    private static final String STAGE_NAME = "Переходим к интересностям \uD83D\uDE43 " +
+            "Выбери команду в меню или нажми /help, для отображения моих возможностей";
 
     public StageNameCommand(SendBotMessageService sendBotMessageService, UserService userService, User user) {
         this.sendBotMessageService = sendBotMessageService;
@@ -45,10 +47,12 @@ public class StageNameCommand implements Command {
                     user.setName(text);
                     user.setStage(Stage.NONE);
                     sendBotMessageService.sendMessage(user.getChatId(), String.format(STAGE_NAME_NEW, user.getName()));
+                    sendBotMessageService.sendMessage(user.getChatId(), STAGE_NAME);
                 } else {
                     user.setName(text);
                     user.setStage(Stage.NONE);
                     sendBotMessageService.sendMessage(user.getChatId(), String.format(STAGE_NAME_OLD, user.getName()));
+                    sendBotMessageService.sendMessage(user.getChatId(), STAGE_NAME);
                 }
                 userService.saveUser(user);
             } else {

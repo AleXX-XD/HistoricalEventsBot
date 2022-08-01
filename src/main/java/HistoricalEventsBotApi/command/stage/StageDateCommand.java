@@ -9,7 +9,6 @@ import org.json.simple.JSONObject;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -62,8 +61,6 @@ public class StageDateCommand implements Command {
                 sendBotMessageService.sendMessage(user.getChatId(), STAGE_DATE_FAIL_FORMAT_DATE);
             }
         }
-
-
     }
 
     private LocalDate extractionDate(String text) {

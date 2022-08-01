@@ -1,21 +1,22 @@
-package HistoricalEventsBotApi.command;
+package HistoricalEventsBotApi.command.admin;
 
+import HistoricalEventsBotApi.command.Command;
+import HistoricalEventsBotApi.command.UnknownCommand;
 import HistoricalEventsBotApi.command.stage.Stage;
 import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-public class DateCommand implements Command {
+@AdminAnnotation
+public class IdEventCommand implements Command {
 
     private final SendBotMessageService sendBotMessageService;
     private final UserService userService;
 
-    private final static String DATE_COMMAND = "Укажи дату для поиска событий, в формате: ДЕНЬ.МЕСЯЦ.\n" +
-            "Пример: <b>28.07</b> , или жми /back для отмены.";
-    public final static String DATE_MESSAGE_NO_ACTIVE = "Для начала работы со мной, жми - /start \uD83D\uDE0E";
+    public final static String ID_MESSAGE = "Укажи id записи или жми /back для выхода.";
 
-    public DateCommand(SendBotMessageService sendBotMessageService, UserService userService) {
+    public IdEventCommand(SendBotMessageService sendBotMessageService, UserService userService) {
         this.sendBotMessageService = sendBotMessageService;
         this.userService = userService;
     }
@@ -25,11 +26,11 @@ public class DateCommand implements Command {
         String chatId = update.getMessage().getChatId().toString();
         User user = userService.getUser(chatId);
         if(user == null || !user.isActive()) {
-            sendBotMessageService.sendMessage(chatId, DATE_MESSAGE_NO_ACTIVE);
+            new UnknownCommand(sendBotMessageService).execute(update);
         } else {
-            user.setStage(Stage.STAGE_DATE);
+            user.setStage(Stage.STAGE_ID);
             userService.saveUser(user);
-            sendBotMessageService.sendMessage(user.getChatId(), DATE_COMMAND);
+            sendBotMessageService.sendMessage(chatId, ID_MESSAGE);
         }
     }
 }
