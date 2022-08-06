@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  bot:
+    depends_on:
+      - db
+    build: .
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: db_password
+      POSTGRES_USER: db_user
+      POSTGRES_DB: db_name
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'

@@ -99,6 +99,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>HistoryEventsBot</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

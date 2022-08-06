@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 import static HistoricalEventsBotApi.command.CommandName.NO;
 
@@ -41,7 +41,7 @@ public class BotHandler {
                 if(user.getName() == null && user.getStage() != Stage.STAGE_NAME) {
                     user.setName("Стесняшка");
                 }
-                if(LocalTime.now().isAfter(user.getStageTime().plusMinutes(5))) {
+                if(LocalDateTime.now().isAfter(user.getStageTime().plusMinutes(5))) {
                     user.setStage(Stage.NONE);
                     userService.saveUser(user);
                     distribution(update);

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -24,7 +24,7 @@ public class User {
     private boolean isAdmin;
     private Stage stage;
     @Column(name="stage_time")
-    private LocalTime stageTime;
+    private LocalDateTime stageTime;
     @Column(name="current_events", columnDefinition = "TEXT")
     private String currentEvents;
 
@@ -32,7 +32,7 @@ public class User {
         this.chatId = chatId;
         active = true;
         stage = Stage.STAGE_NAME;
-        stageTime = LocalTime.now();
+        stageTime = LocalDateTime.now();
         subscription = false;
         isAdmin = false;
     }
@@ -41,6 +41,6 @@ public class User {
 
     public void setStage(Stage stage) {
         this.stage = stage;
-        stageTime = LocalTime.now();
+        stageTime = LocalDateTime.now();
     }
 }

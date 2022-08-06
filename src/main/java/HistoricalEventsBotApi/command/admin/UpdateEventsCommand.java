@@ -28,7 +28,7 @@ public class UpdateEventsCommand implements Command {
         log.info("Запущено обновление базы данных, администратором  '" + user.getName() + "' / chatId = " + user.getChatId() + " ");
         sendBotMessageService.sendMessage(chatId, "Запущено обновление базы данных");
 
-        //IndexingSiteUtil.startIndexing();
+        IndexingSiteUtil.startIndexing();
 
     }
 }
