@@ -10,14 +10,14 @@ public class StartCommand implements Command {
     private final SendBotMessageService sendBotMessageService;
     private final UserService userService;
 
-    public final static String START_MESSAGE_NEW_USER = "Привет! Давай знакомиться. Меня зовут БОТер I Великий.\n" +
+    public final static String START_MESSAGE_NEW_USER = "Привет! Давай знакомиться. Меня зовут БОТер Ⅰ Великий.\n" +
             "Я очень люблю историю и буду рад делиться своими знаниями с тобой \uD83D\uDE09\n" +
             "Как я могу обращаться к тебе?";
     public final static String START_MESSAGE_OLD_USER = "Привет! Тебе было без меня скучно? " +
             "Я рад, твоему возвращению \uD83D\uDE00" +
             "\nНапомнить, что я умею? Жми /help или меню слева";
-    public final static String START_MESSAGE_FAIL = "Ты наверное ошибся командой? Ты же уже со мной \uD83D\uDE42 " +
-            "Попробуй еще раз или воспользуйся /help";
+    public final static String START_MESSAGE_FAIL = "Ты же уже со мной \uD83D\uDE42 " +
+            "Введи другую команду или воспользуйся /help";
 
     public StartCommand(SendBotMessageService sendBotMessageService, UserService userService) {
         this.sendBotMessageService = sendBotMessageService;

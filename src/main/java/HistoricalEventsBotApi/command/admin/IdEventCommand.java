@@ -14,7 +14,7 @@ public class IdEventCommand implements Command {
     private final SendBotMessageService sendBotMessageService;
     private final UserService userService;
 
-    public final static String ID_MESSAGE = "Укажи id записи или жми /back для выхода.";
+    public final static String ID_MESSAGE = "Укажи id записи.";
 
     public IdEventCommand(SendBotMessageService sendBotMessageService, UserService userService) {
         this.sendBotMessageService = sendBotMessageService;

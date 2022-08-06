@@ -13,7 +13,7 @@ public class StopCommand implements Command
     public static final String STOP_MESSAGE = "\uD83D\uDE22 Нам же было так хорошо вместе...\n" +
             "Жаль, что ты покидаешь меня... Эххх....\n" +
             "Возвращайся, я буду ждать тебя \uD83D\uDE09 \uD83D\uDC4C ";
-    public static final String STOP_MESSAGE_FAIL = "Эммм... Мы же даже не познакомились \uD83E\uDD28 \n" +
+    public static final String STOP_MESSAGE_FAIL = "Эммм... \uD83E\uDD28 \n" +
             "Может, для начала введешь /start и мы начнем увлекательное общение?";
 
     public StopCommand(SendBotMessageService sendBotMessageService, UserService userService) {
@@ -24,7 +24,7 @@ public class StopCommand implements Command
     @Override
     public void execute(Update update) {
         User user = userService.getUser(update.getMessage().getChatId().toString());
-        if(user == null) {
+        if(user == null || !user.isActive()) {
             sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(), STOP_MESSAGE_FAIL);
         } else {
             sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(), STOP_MESSAGE);

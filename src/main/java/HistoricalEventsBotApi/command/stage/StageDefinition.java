@@ -55,7 +55,7 @@ public class StageDefinition {
             }
             case STAGE_ID: {
                 if(user.isActive() && user.isAdmin()) {
-                    new StageIdCommand(sendBotMessageService, userService, eventService, user).execute(update);
+                    new StageIdCommand(sendBotMessageService, eventService, user).execute(update);
                 } else {
                     user.setStage(NONE);
                     userService.saveUser(user);

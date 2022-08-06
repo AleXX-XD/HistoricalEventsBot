@@ -33,6 +33,7 @@ public class User {
         active = true;
         stage = Stage.STAGE_NAME;
         stageTime = LocalDateTime.now();
+        name = "Человек без имени";
         subscription = false;
         isAdmin = false;
     }

@@ -24,13 +24,7 @@ public class StageCorrectCommand implements Command {
 
     public final static String CORRECT_FAIL = "Не верно указана команда!!! Параметры : date, title, text, image или delete для удаления записи\n" +
             "Формат: параметр!-!значение\n" +
-            "Пример: date!-!4/25 , image!-!https://url , text!-!Текст" +
-            "Для завершения изменений, жми /back";
-    private static final String CORRECT_SLASH = "Я жду параметры (date,title,text,image) или delete для удаления записи\n" +
-            "Формат: параметр!-!значение\n" +
-            "Пример: date!-!4/25 , image!-!https://url , text!-!Текст" +
-            "Для завершения изменений, жми /back";
-    public final static String CORRECT_BACK = "Вывел тебя, <b>%s</b> из режима корректировки \uD83D\uDC4C";
+            "Пример: date!-!4/25 , image!-!https://url , text!-!Текст";
 
     public StageCorrectCommand(SendBotMessageService sendBotMessageService, UserService userService, EventService eventService, User user) {
         this.sendBotMessageService = sendBotMessageService;
@@ -42,71 +36,61 @@ public class StageCorrectCommand implements Command {
     @Override
     public void execute(Update update) {
         String text = update.getMessage().getText();
-        if (text.startsWith("/")) {
-            if (text.equals("/back")) {
-                user.setStage(Stage.NONE);
-                userService.saveUser(user);
-                sendBotMessageService.sendMessage(user.getChatId(), String.format(CORRECT_BACK, user.getName()));
-            } else {
-                sendBotMessageService.sendMessage(user.getChatId(), CORRECT_SLASH);
+        String[] splitText = text.split("!-!");
+        Event event = getEvent(user.getCurrentEvents());
+        if (event != null) {
+            switch (splitText[0]) {
+                case "date": {
+                    if (splitText[1].matches("\\d{1,2}/\\d{1,2}")) {
+                        event.setDate(splitText[1]);
+                        eventService.saveEvent(event);
+                        sendBotMessageService.sendMessage(user.getChatId(), "Дата обновлена");
+                        log.info("Запись с id = '" + event.getLink() + "' - изменена дата администратором '" + user.getName() + " / " + user.getChatId() + "'");
+                    } else {
+                        sendBotMessageService.sendMessage(user.getChatId(), "Дата указана не верно");
+                    }
+                    break;
+                }
+                case "title": {
+                    event.setTitle(splitText[1]);
+                    eventService.saveEvent(event);
+                    sendBotMessageService.sendMessage(user.getChatId(), "Заголовок обновлен");
+                    log.info("Запись с id '" + event.getLink() + "' - изменен заголовок администратором '" + user.getName() + " / " + user.getChatId() + "'");
+                    break;
+                }
+                case "text": {
+                    event.setText(splitText[1]);
+                    eventService.saveEvent(event);
+                    sendBotMessageService.sendMessage(user.getChatId(), "Текст обновлен");
+                    log.info("Запись с id = '" + event.getLink() + "' - изменен текст администратором '" + user.getName() + " / " + user.getChatId() + "'");
+                    break;
+                }
+                case "image": {
+                    if (splitText[1].matches("https?://.+")) {
+                        event.setImg(splitText[1]);
+                        eventService.saveEvent(event);
+                        sendBotMessageService.sendMessage(user.getChatId(), "Ссылка на картинку обновлена");
+                        log.info("Запись с id = '" + event.getLink() + "' - изменена ссылка на картинку администратором '" + user.getName() + " / " + user.getChatId() + "'");
+                    } else {
+                        sendBotMessageService.sendMessage(user.getChatId(), "Ссылка указана не верно");
+                    }
+                    break;
+                }
+                case "delete": {
+                    log.info("Запись с id = '" + event.getLink() + "' удалена администратором '" + user.getName() + " / " + user.getChatId() + "'");
+                    eventService.deleteEvent(event);
+                    sendBotMessageService.sendMessage(user.getChatId(), "Запись удалена");
+                    user.setStage(Stage.NONE);
+                    userService.saveUser(user);
+                    break;
+                }
+                default:
+                    sendBotMessageService.sendMessage(user.getChatId(), CORRECT_FAIL);
             }
         } else {
-            String[] splitText = text.split("!-!");
-            Event event = getEvent(user.getCurrentEvents());
-            if (event != null) {
-                switch (splitText[0]) {
-                    case "date": {
-                        if (splitText[1].matches("\\d{1,2}/\\d{1,2}")) {
-                            event.setDate(splitText[1]);
-                            eventService.saveEvent(event);
-                            sendBotMessageService.sendMessage(user.getChatId(), "Дата обновлена");
-                            log.info("Запись с id = '" + event.getLink() + "' - изменена дата администратором '" + user.getName() + " / " + user.getChatId() + "'");
-                        } else {
-                            sendBotMessageService.sendMessage(user.getChatId(), "Дата указана не верно");
-                        }
-                        break;
-                    }
-                    case "title": {
-                        event.setTitle(splitText[1]);
-                        eventService.saveEvent(event);
-                        sendBotMessageService.sendMessage(user.getChatId(), "Заголовок обновлен");
-                        log.info("Запись с id '" + event.getLink() + "' - изменен заголовок администратором '" + user.getName() + " / " + user.getChatId() + "'");
-                        break;
-                    }
-                    case "text": {
-                        event.setText(splitText[1]);
-                        eventService.saveEvent(event);
-                        sendBotMessageService.sendMessage(user.getChatId(), "Текст обновлен");
-                        log.info("Запись с id = '" + event.getLink() + "' - изменен текст администратором '" + user.getName() + " / " + user.getChatId() + "'");
-                        break;
-                    }
-                    case "image": {
-                        if (splitText[1].matches("https?://.+")) {
-                            event.setImg(splitText[1]);
-                            eventService.saveEvent(event);
-                            sendBotMessageService.sendMessage(user.getChatId(), "Ссылка на картинку обновлена");
-                            log.info("Запись с id = '" + event.getLink() + "' - изменена ссылка на картинку администратором '" + user.getName() + " / " + user.getChatId() + "'");
-                        } else {
-                            sendBotMessageService.sendMessage(user.getChatId(), "Ссылка указана не верно");
-                        }
-                        break;
-                    }
-                    case "delete": {
-                        log.info("Запись с id = '" + event.getLink() + "' удалена администратором '" + user.getName() + " / " + user.getChatId() + "'");
-                        eventService.deleteEvent(event);
-                        sendBotMessageService.sendMessage(user.getChatId(), "Запись удалена");
-                        user.setStage(Stage.NONE);
-                        userService.saveUser(user);
-                        break;
-                    }
-                    default:
-                        sendBotMessageService.sendMessage(user.getChatId(), CORRECT_FAIL);
-                }
-            } else {
-                sendBotMessageService.sendMessage(user.getChatId(), "Запись не найдена");
-                user.setStage(Stage.NONE);
-                userService.saveUser(user);
-            }
+            sendBotMessageService.sendMessage(user.getChatId(), "Запись не найдена");
+            user.setStage(Stage.NONE);
+            userService.saveUser(user);
         }
     }
 

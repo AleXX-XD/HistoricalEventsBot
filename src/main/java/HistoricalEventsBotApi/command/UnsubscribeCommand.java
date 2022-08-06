@@ -12,7 +12,7 @@ public class UnsubscribeCommand implements Command {
 
     public final static String EVENTUNSUB_MESSAGE_NO_ACTIVE = "Для начала работы со мной, жми - /start \uD83D\uDE0E";
     public final static String EVENTUNSUB_MESSAGE = "Твоя подписка приостановлена \uD83D\uDC4C Если передумаешь, буду рад \uD83D\uDE09";
-    public final static String EVENTUNSUB_MESSAGE_FAIL = "У тебя нет действующей подписки. Можешь подписаться, нажав /eventsub ";
+    public final static String EVENTUNSUB_MESSAGE_FAIL = "У тебя нет действующей подписки. Можешь подписаться, нажав /subscribe ";
 
     public UnsubscribeCommand(SendBotMessageService sendBotMessageService, UserService userService) {
         this.sendBotMessageService = sendBotMessageService;
