@@ -29,8 +29,7 @@ public class SendBotMessageService {
         try {
             bot.execute(sendMessage);
         } catch (TelegramApiException e) {
-            log.warn("Ошибка отправки сообщения: " + e.getMessage());
-            e.printStackTrace();
+            log.warn("Ошибка отправки сообщения пользователю id=:" + chatId + " / " + e.getMessage());
         }
     }
 
@@ -49,8 +48,7 @@ public class SendBotMessageService {
             try{
                 bot.execute(sendPhoto);
             } catch (TelegramApiException e) {
-                log.warn("Ошибка отправки сообщения: " + e.getMessage());
-                e.printStackTrace();
+                log.warn("Ошибка отправки сообщения пользователю id=:" + chatId + " / " + e.getMessage());
             }
         }
     }

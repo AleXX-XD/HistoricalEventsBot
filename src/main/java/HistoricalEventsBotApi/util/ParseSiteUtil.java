@@ -40,8 +40,8 @@ public class ParseSiteUtil implements Runnable {
             for(Element link: links) {
                 String newLink = url + link.attributes().get("href");
                 indexPage(newLink, path);
-                eventService.saveAll(eventList);
             }
+            eventService.saveAll(eventList);
         } catch (Exception iex) {
             log.warn("Ошибка при индексации. Путь : '" + url + path + "' / " + iex.getMessage());
         }
@@ -80,7 +80,7 @@ public class ParseSiteUtil implements Runnable {
                 builder.append(el.text().trim()).append("\n");
             }
             builder.append("\nИноформация взята с сайта ").append(url);
-            if(builder.toString().trim().length() != 0) {
+            if(builder.toString().trim().length() > 200) {
                 event.setText(builder.toString());
                 eventList.add(event);
             }
