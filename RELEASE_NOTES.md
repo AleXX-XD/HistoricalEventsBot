@@ -1,3 +1,7 @@
+## 1.1.0
+
+Fixed the stage of selecting events and entering parameters. Now there is no need to specify /back to exit the parameter input mode, you can continue working with the bot by specifying any other command.
+
 ## 1.0.0
 
 The main commands available to the user are implemented:

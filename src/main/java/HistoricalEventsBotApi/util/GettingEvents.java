@@ -49,7 +49,7 @@ public class GettingEvents {
             eventsArray.add(eventObject);
             i += 1;
         }
-        builder.append("\nВведи номер события, чтобы получить подробную информацию или /back для отмены");
+        builder.append("\nВведи номер события, чтобы получить подробную информацию.");
         contentObject.put("content", builder.toString());
         contentObject.put("events", eventsArray);
         return contentObject;

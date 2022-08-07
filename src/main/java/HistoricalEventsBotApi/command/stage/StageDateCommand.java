@@ -20,12 +20,9 @@ public class StageDateCommand implements Command {
 
     public final static String STAGE_DATE_FAIL_DATE = "<b>%s</b>, такой даты не существует \uD83E\uDD2D " +
             "Ну ничего, все ошибаются. Давай, еще раз.\n" +
-            "Введи дату в формате: ДЕНЬ.МЕСЯЦ. Пример: <b>28.07</b> , или жми /back для возврата.";
+            "Введи дату в формате: ДЕНЬ.МЕСЯЦ. Пример: <b>28.07</b>.";
     public final static String STAGE_DATE_FAIL_FORMAT_DATE = "С форматом даты ошибочка вышла \uD83E\uDD14 Попробуй еще раз.\n" +
-            "Введи дату в формате: ДЕНЬ.МЕСЯЦ. Пример: <b>28.07</b> , или жми /back для возврата.";
-    private static final String STAGE_DATE_SLASH = "Я жду дату, а не команду \uD83D\uDE01 " +
-            "Введи дату в формате: ДЕНЬ.МЕСЯЦ. Пример: <b>28.07</b> , или жми /back для возврата.";
-    public final static String STAGE_DATE_BACK = "Хорошо, <b>%s</b> \uD83D\uDC4C Вернул тебя к выбору команд.";
+            "Введи дату в формате: ДЕНЬ.МЕСЯЦ. Пример: <b>28.07</b>.";
 
     public StageDateCommand(SendBotMessageService sendBotMessageService, UserService userService, User user) {
         this.sendBotMessageService = sendBotMessageService;
@@ -36,30 +33,20 @@ public class StageDateCommand implements Command {
     @Override
     public void execute(Update update) {
         String text = update.getMessage().getText();
-        if (text.startsWith("/")) {
-            if (text.equals("/back")) {
-                user.setStage(Stage.NONE);
+        if (text.matches("\\d{1,2}\\.\\d{1,2}")) {
+            LocalDate date = extractionDate(text + ".2020");
+            if (date != null) {
+                JSONObject eventsObject = GettingEvents.getEventMessage(date);
+                user.setCurrentEvents(eventsObject.toJSONString());
+                user.setStage(Stage.STAGE_EVENTS);
                 userService.saveUser(user);
-                sendBotMessageService.sendMessage(user.getChatId(), String.format(STAGE_DATE_BACK, user.getName()));
+                String content = GettingEvents.getContent(eventsObject);
+                sendBotMessageService.sendMessage(user.getChatId(), content);
             } else {
-                sendBotMessageService.sendMessage(user.getChatId(), STAGE_DATE_SLASH);
+                sendBotMessageService.sendMessage(user.getChatId(), String.format(STAGE_DATE_FAIL_DATE, user.getName()));
             }
         } else {
-            if (text.matches("\\d{1,2}\\.\\d{1,2}")) {
-                LocalDate date = extractionDate(text + ".2020");
-                if (date != null) {
-                    JSONObject eventsObject = GettingEvents.getEventMessage(date);
-                    user.setCurrentEvents(eventsObject.toJSONString());
-                    user.setStage(Stage.STAGE_EVENTS);
-                    userService.saveUser(user);
-                    String content = GettingEvents.getContent(eventsObject);
-                    sendBotMessageService.sendMessage(user.getChatId(), content);
-                } else {
-                    sendBotMessageService.sendMessage(user.getChatId(), String.format(STAGE_DATE_FAIL_DATE, user.getName()));
-                }
-            } else {
-                sendBotMessageService.sendMessage(user.getChatId(), STAGE_DATE_FAIL_FORMAT_DATE);
-            }
+            sendBotMessageService.sendMessage(user.getChatId(), STAGE_DATE_FAIL_FORMAT_DATE);
         }
     }
 

@@ -23,6 +23,16 @@ The basic commands available to the administrator:
 
 * After displaying the list of events, when specifying: '№event correct', the administrator becomes available the correction mode of this record, where it is possible to change the main parameters (date, title, text, image), as well as sting it when using 'delete'
 
+###Technology Stack:
+* Java
+* Spring Boot
+* Spring Data Jpa
+* PostgreSQL
+* Jsoup
+* Json
+* Log4j
+* Docker
+
 ## Building
 ...
 

@@ -37,25 +37,29 @@ public class BotHandler {
        if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText().trim();
             User user = userService.getUser(update.getMessage().getChatId().toString());
-            if (user != null && user.getStage() != Stage.NONE) {
-                if(user.getName() == null && user.getStage() != Stage.STAGE_NAME) {
-                    user.setName("Стесняшка");
-                }
-                if(LocalDateTime.now().isAfter(user.getStageTime().plusMinutes(5))) {
-                    user.setStage(Stage.NONE);
-                    userService.saveUser(user);
-                    distribution(update);
-                } else {
-                    userService.saveUser(user);
-                    stageDefinition.definition(user,update);
-                }
-            } else {
-                if (message.startsWith(COMMAND_PREFIX)) {
-                    commandContainer.retrieveCommand(message, user).execute(update);
-                } else {
-                    commandContainer.retrieveCommand(NO.getCommandName(), user).execute(update);
-                }
-            }
+           if (message.startsWith(COMMAND_PREFIX)) {
+               if(user != null)  {
+                   user.setStage(Stage.NONE);
+                   userService.saveUser(user);
+               }
+               commandContainer.retrieveCommand(message, user).execute(update);
+           } else {
+               if (user != null && user.getStage() != Stage.NONE) {
+                   if(user.getName() == null && user.getStage() != Stage.STAGE_NAME) {
+                       user.setName("Человек без имени");
+                   }
+                   if(LocalDateTime.now().isAfter(user.getStageTime().plusMinutes(5))) {
+                       user.setStage(Stage.NONE);
+                       userService.saveUser(user);
+                       distribution(update);
+                   } else {
+                       userService.saveUser(user);
+                       stageDefinition.definition(user,update);
+                   }
+               } else {
+                   commandContainer.retrieveCommand(NO.getCommandName(), user).execute(update);
+               }
+           }
         }
     }
 }
