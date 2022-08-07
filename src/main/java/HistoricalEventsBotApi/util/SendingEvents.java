@@ -30,6 +30,7 @@ public class SendingEvents {
         JSONObject eventsObject = GettingEvents.getEventMessage(LocalDate.now());
         String message = GettingEvents.getContent(eventsObject);
         for(User user : userList) {
+            user.setCurrentEvents(eventsObject.toJSONString());
             user.setStage(Stage.STAGE_EVENTS);
             userService.saveUser(user);
             String SENDING_MESSAGE = "Привет, %s! Я к тебе с ежедневной рассылкой \uD83D\uDE09";

@@ -1,3 +1,7 @@
+## 1.2.1
+
+Fixed a bug with daily mailing. The list of current events was not added to the database.
+
 ## 1.2.0
 
 Added an administrator command to output all users' data. The zeroing of stages has been changed. The stages are reset when entering any command.
