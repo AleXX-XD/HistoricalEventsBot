@@ -32,7 +32,6 @@ public class User {
         this.chatId = chatId;
         active = true;
         stage = Stage.STAGE_NAME;
-        stageTime = LocalDateTime.now();
         name = "Человек без имени";
         subscription = false;
         isAdmin = false;
@@ -42,6 +41,5 @@ public class User {
 
     public void setStage(Stage stage) {
         this.stage = stage;
-        stageTime = LocalDateTime.now();
     }
 }

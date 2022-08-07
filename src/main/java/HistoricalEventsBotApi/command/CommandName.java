@@ -13,8 +13,8 @@ public enum CommandName {
     UNSUBSCRIBE("/unsubscribe"),
     NAME("/name"),
     UPDATE("/update"),
-    ID("/id"),
     STATISTIC("/statistic"),
+    ALL_USERS("/all_users"),
     AHELP("/ahelp");
 
     private final String commandName;

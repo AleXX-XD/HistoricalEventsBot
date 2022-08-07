@@ -4,7 +4,9 @@ import HistoricalEventsBotApi.model.User;
 import HistoricalEventsBotApi.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -17,6 +19,13 @@ public class UserService {
 
     public User getUser(String chatId) {
         return userRepository.findByChatId(chatId);
+    }
+
+    public List<User> getAllUser() {
+        Iterable<User> users = this.userRepository.findAll();
+        List<User> userList = new ArrayList<>();
+        users.forEach(userList::add);
+        return userList;
     }
 
     public void saveUser(User user) {

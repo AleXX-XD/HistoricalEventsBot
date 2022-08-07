@@ -13,11 +13,12 @@ public class AdminHelpCommand implements Command {
 
     public static final String HELP_MESSAGE = String.format("✨ <b>Возможности администратора</b> ✨\n\n"
                     + "%s - статистика\n"
-                    + "%s - получить запись по id\n"
                     + "%s - обновление всей БД\n"
                     + "№записи correct - изменение отдельной записи из списка\n"
+                    + "%s - данные всех пользователей\n"
                     + "%s - меню администратора\n",
-            STATISTIC.getCommandName(),ID.getCommandName(), UPDATE.getCommandName(), AHELP.getCommandName());
+            STATISTIC.getCommandName(), UPDATE.getCommandName(),
+            ALL_USERS.getCommandName(), AHELP.getCommandName());
 
     public AdminHelpCommand (SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;

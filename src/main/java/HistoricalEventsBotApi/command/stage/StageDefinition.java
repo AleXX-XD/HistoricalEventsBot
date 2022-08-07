@@ -44,18 +44,8 @@ public class StageDefinition {
                 break;
             }
             case STAGE_CORRECT: {
-                if(user.isActive() && user.isAdmin()) {
+                if (user.isActive() && user.isAdmin()) {
                     new StageCorrectCommand(sendBotMessageService, userService, eventService, user).execute(update);
-                } else {
-                    user.setStage(NONE);
-                    userService.saveUser(user);
-                    sendBotMessageService.sendMessage(user.getChatId(), "Команда доступна только администратору!");
-                }
-                break;
-            }
-            case STAGE_ID: {
-                if(user.isActive() && user.isAdmin()) {
-                    new StageIdCommand(sendBotMessageService, eventService, user).execute(update);
                 } else {
                     user.setStage(NONE);
                     userService.saveUser(user);
