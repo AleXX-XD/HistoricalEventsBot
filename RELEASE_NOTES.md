@@ -1,3 +1,11 @@
+## 1.2.1
+
+Fixed a bug with daily mailing. The list of current events was not added to the database.
+
+## 1.2.0
+
+Added an administrator command to output all users' data. The zeroing of stages has been changed. The stages are reset when entering any command.
+
 ## 1.1.0
 
 Fixed the stage of selecting events and entering parameters. Now there is no need to specify /back to exit the parameter input mode, you can continue working with the bot by specifying any other command.

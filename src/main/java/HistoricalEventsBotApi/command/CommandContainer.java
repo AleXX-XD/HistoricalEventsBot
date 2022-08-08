@@ -2,7 +2,6 @@ package HistoricalEventsBotApi.command;
 
 import HistoricalEventsBotApi.command.admin.*;
 import HistoricalEventsBotApi.model.User;
-import HistoricalEventsBotApi.service.EventService;
 import HistoricalEventsBotApi.service.SendBotMessageService;
 import HistoricalEventsBotApi.service.UserService;
 import com.google.common.collect.ImmutableMap;
@@ -19,8 +18,7 @@ public class CommandContainer {
     private final Command unknownCommand;
 
     @Autowired
-    public CommandContainer(SendBotMessageService sendBotMessageService, UserService userService,
-                            EventService eventService) {
+    public CommandContainer(SendBotMessageService sendBotMessageService, UserService userService) {
 
         commandMap = ImmutableMap.<String, Command>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, userService))
@@ -34,8 +32,8 @@ public class CommandContainer {
                 .put(UNSUBSCRIBE.getCommandName(), new UnsubscribeCommand(sendBotMessageService, userService))
                 .put(NAME.getCommandName(), new NameCommand(sendBotMessageService, userService))
                 .put(UPDATE.getCommandName(), new UpdateEventsCommand(sendBotMessageService, userService))
-                .put(ID.getCommandName(), new IdEventCommand(sendBotMessageService, userService))
                 .put(STATISTIC.getCommandName(), new StatisticCommand(sendBotMessageService, userService))
+                .put(ALL_USERS.getCommandName(), new AllUsersCommand(sendBotMessageService, userService))
                 .put(AHELP.getCommandName(), new AdminHelpCommand(sendBotMessageService))
                 .build();
 
